@@ -1,7 +1,7 @@
 // src/app/page.tsx
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
-import { Projects } from "@/components/Projects";
+import Projects from "@/components/Projects";
 import { client } from "@/sanity/lib/client";
 import { projectsQuery } from "@/sanity/lib/queries";
 import { About } from "@/components/About";
