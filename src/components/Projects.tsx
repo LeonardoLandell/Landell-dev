@@ -27,6 +27,7 @@ export interface SanityProject {
   results: string[];
   stack: string[];
   image: string;
+  blurDataURL?: string; // Corrigido para satisfazer o TypeScript
   demo: string;
   github: string;
 }
@@ -64,16 +65,16 @@ function ProjectCard({
     <article className="overflow-hidden rounded-3xl border border-white/20 bg-black/40 backdrop-blur-2xl shadow-[0_25px_60px_rgba(0,0,0,0.4)] text-white transition-all duration-500 hover:border-white/40 h-full flex flex-col">
       <div className="relative aspect-[16/9] overflow-hidden">
         <Image
-  src={project.image}
-  alt={`Tela do projeto ${project.title}`}
-  fill
-  sizes="(max-width: 768px) 100vw, 896px"
-  priority={index === 0}
-  placeholder={project.blurDataURL ? "blur" : "empty"}
-  blurDataURL={project.blurDataURL}
-  draggable={false}
-  className="object-cover transition-transform duration-700 hover:scale-105"
-/>
+          src={project.image}
+          alt={`Tela do projeto ${project.title}`}
+          fill
+          sizes="(max-width: 768px) 100vw, 896px"
+          priority={index === 0}
+          placeholder={project.blurDataURL ? "blur" : "empty"}
+          blurDataURL={project.blurDataURL}
+          draggable={false}
+          className="object-cover transition-transform duration-700 hover:scale-105"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
         <span className="absolute left-4 top-4 rounded-full bg-black/60 backdrop-blur-md border border-white/30 px-3.5 py-1 font-mono text-[10px] tracking-wider text-white uppercase shadow-lg">
           Nº {String(index + 1).padStart(2, "0")} · {project.year}
@@ -152,12 +153,12 @@ function CaseModal({ project, onClose }: { project: SanityProject | null; onClos
             </button>
 
             <div className="relative aspect-[16/8] overflow-hidden">
-              <img
+              <Image
                 src={project.image}
                 alt={`Tela do projeto ${project.title}`}
-                width={1280}
-                height={800}
-                className="h-full w-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 700px"
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B132B] via-transparent to-transparent opacity-80" />
             </div>
@@ -244,7 +245,6 @@ export function Projects({ projects = [] }: ProjectsProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
-  // Configuração do plugin Autoplay (5 segundos) e pausa ao passar o mouse (stopOnMouseEnter)
   const autoplayPlugin = React.useRef(
     Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false })
   );
@@ -271,7 +271,6 @@ export function Projects({ projects = [] }: ProjectsProps) {
       id="projetos" 
       className="relative scroll-mt-10 pb-28 pt-28 md:pb-40 md:pt-40 text-white overflow-hidden bg-[linear-gradient(180deg,#60A5FA_0%,#2563EB_35%,#1E3A8A_70%,#0F172A_100%)]"
     >
-      {/* Atmosfera e grid */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
         <div className="bg-[linear-gradient(to_right,#ffffff12_1px,transparent_1px),linear-gradient(to_bottom,#ffffff12_1px,transparent_1px)] bg-[size:4rem_4rem] h-full w-full [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
@@ -290,7 +289,6 @@ export function Projects({ projects = [] }: ProjectsProps) {
           </p>
         </div>
 
-        {/* Uso do componente Carousel com Embla Autoplay */}
         <div className="relative max-w-4xl mx-auto px-12">
           <Carousel
             setApi={setApi}
@@ -318,7 +316,6 @@ export function Projects({ projects = [] }: ProjectsProps) {
             <CarouselNext className="bg-black/50 border-white/20 text-white hover:bg-black/80" />
           </Carousel>
 
-          {/* Indicadores de página (Bullets) */}
           <div className="mt-8 flex items-center justify-center gap-2">
             {projects.map((p, i) => (
               <button
